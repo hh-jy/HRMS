@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.PayrollMapper">
+  <resultMap id="BaseResultMap" type="com.bean.Payroll">
+    <id column="pay_emp_id" jdbcType="INTEGER" property="payEmpId" />
+    <result column="tax_type_id" jdbcType="INTEGER" property="taxTypeId" />
+    <result column="act_salary" jdbcType="DOUBLE" property="actSalary" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    pay_emp_id, tax_type_id, act_salary
+  </sql>
+  <select id="selectByExample" parameterType="com.bean.PayrollExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from payroll
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from payroll
+    where pay_emp_id = #{payEmpId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from payroll
+    where pay_emp_id = #{payEmpId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bean.PayrollExample">
+    delete from payroll
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bean.Payroll">
+    insert into payroll (pay_emp_id, tax_type_id, act_salary
+      )
+    values (#{payEmpId,jdbcType=INTEGER}, #{taxTypeId,jdbcType=INTEGER}, #{actSalary,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Payroll">
+    insert into payroll
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="payEmpId != null">
+        pay_emp_id,
+      </if>
+      <if test="taxTypeId != null">
+        tax_type_id,
+      </if>
+      <if test="actSalary != null">
+        act_salary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="payEmpId != null">
+        #{payEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="taxTypeId != null">
+        #{taxTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="actSalary != null">
+        #{actSalary,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bean.PayrollExample" resultType="java.lang.Long">
+    select count(*) from payroll
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update payroll
+    <set>
+      <if test="record.payEmpId != null">
+        pay_emp_id = #{record.payEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="record.taxTypeId != null">
+        tax_type_id = #{record.taxTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.actSalary != null">
+        act_salary = #{record.actSalary,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update payroll
+    set pay_emp_id = #{record.payEmpId,jdbcType=INTEGER},
+      tax_type_id = #{record.taxTypeId,jdbcType=INTEGER},
+      act_salary = #{record.actSalary,jdbcType=DOUBLE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Payroll">
+    update payroll
+    <set>
+      <if test="taxTypeId != null">
+        tax_type_id = #{taxTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="actSalary != null">
+        act_salary = #{actSalary,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where pay_emp_id = #{payEmpId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Payroll">
+    update payroll
+    set tax_type_id = #{taxTypeId,jdbcType=INTEGER},
+      act_salary = #{actSalary,jdbcType=DOUBLE}
+    where pay_emp_id = #{payEmpId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.bean.Payroll">
+    <id column="pay_emp_id" jdbcType="INTEGER" property="payEmpId" />
+    <result column="tax_type_id" jdbcType="INTEGER" property="taxTypeId" />
+    <result column="act_salary" jdbcType="DOUBLE" property="actSalary" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    pay_emp_id, tax_type_id, act_salary
+  </sql>
+  <select id="selectByExample" parameterType="com.bean.PayrollExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from payroll
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from payroll
+    where pay_emp_id = #{payEmpId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from payroll
+    where pay_emp_id = #{payEmpId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bean.PayrollExample">
+    delete from payroll
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bean.Payroll">
+    insert into payroll (pay_emp_id, tax_type_id, act_salary
+      )
+    values (#{payEmpId,jdbcType=INTEGER}, #{taxTypeId,jdbcType=INTEGER}, #{actSalary,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Payroll">
+    insert into payroll
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="payEmpId != null">
+        pay_emp_id,
+      </if>
+      <if test="taxTypeId != null">
+        tax_type_id,
+      </if>
+      <if test="actSalary != null">
+        act_salary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="payEmpId != null">
+        #{payEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="taxTypeId != null">
+        #{taxTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="actSalary != null">
+        #{actSalary,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bean.PayrollExample" resultType="java.lang.Long">
+    select count(*) from payroll
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update payroll
+    <set>
+      <if test="record.payEmpId != null">
+        pay_emp_id = #{record.payEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="record.taxTypeId != null">
+        tax_type_id = #{record.taxTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.actSalary != null">
+        act_salary = #{record.actSalary,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update payroll
+    set pay_emp_id = #{record.payEmpId,jdbcType=INTEGER},
+      tax_type_id = #{record.taxTypeId,jdbcType=INTEGER},
+      act_salary = #{record.actSalary,jdbcType=DOUBLE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Payroll">
+    update payroll
+    <set>
+      <if test="taxTypeId != null">
+        tax_type_id = #{taxTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="actSalary != null">
+        act_salary = #{actSalary,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where pay_emp_id = #{payEmpId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Payroll">
+    update payroll
+    set tax_type_id = #{taxTypeId,jdbcType=INTEGER},
+      act_salary = #{actSalary,jdbcType=DOUBLE}
+    where pay_emp_id = #{payEmpId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.bean.Payroll">
+    <id column="pay_emp_id" jdbcType="INTEGER" property="payEmpId" />
+    <result column="tax_type_id" jdbcType="INTEGER" property="taxTypeId" />
+    <result column="act_salary" jdbcType="DOUBLE" property="actSalary" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    pay_emp_id, tax_type_id, act_salary
+  </sql>
+  <select id="selectByExample" parameterType="com.bean.PayrollExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from payroll
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from payroll
+    where pay_emp_id = #{payEmpId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from payroll
+    where pay_emp_id = #{payEmpId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bean.PayrollExample">
+    delete from payroll
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bean.Payroll">
+    insert into payroll (pay_emp_id, tax_type_id, act_salary
+      )
+    values (#{payEmpId,jdbcType=INTEGER}, #{taxTypeId,jdbcType=INTEGER}, #{actSalary,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Payroll">
+    insert into payroll
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="payEmpId != null">
+        pay_emp_id,
+      </if>
+      <if test="taxTypeId != null">
+        tax_type_id,
+      </if>
+      <if test="actSalary != null">
+        act_salary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="payEmpId != null">
+        #{payEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="taxTypeId != null">
+        #{taxTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="actSalary != null">
+        #{actSalary,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bean.PayrollExample" resultType="java.lang.Long">
+    select count(*) from payroll
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update payroll
+    <set>
+      <if test="record.payEmpId != null">
+        pay_emp_id = #{record.payEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="record.taxTypeId != null">
+        tax_type_id = #{record.taxTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.actSalary != null">
+        act_salary = #{record.actSalary,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update payroll
+    set pay_emp_id = #{record.payEmpId,jdbcType=INTEGER},
+      tax_type_id = #{record.taxTypeId,jdbcType=INTEGER},
+      act_salary = #{record.actSalary,jdbcType=DOUBLE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Payroll">
+    update payroll
+    <set>
+      <if test="taxTypeId != null">
+        tax_type_id = #{taxTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="actSalary != null">
+        act_salary = #{actSalary,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where pay_emp_id = #{payEmpId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Payroll">
+    update payroll
+    set tax_type_id = #{taxTypeId,jdbcType=INTEGER},
+      act_salary = #{actSalary,jdbcType=DOUBLE}
+    where pay_emp_id = #{payEmpId,jdbcType=INTEGER}
+  </update>
+</mapper>

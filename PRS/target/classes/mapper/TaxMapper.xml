@@ -1,0 +1,625 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.TaxMapper">
+  <resultMap id="BaseResultMap" type="com.bean.Tax">
+    <id column="tax_id" jdbcType="INTEGER" property="taxId" />
+    <result column="smallest_sal" jdbcType="DOUBLE" property="smallestSal" />
+    <result column="highest_sal" jdbcType="DOUBLE" property="highestSal" />
+    <result column="tax_rate" jdbcType="DOUBLE" property="taxRate" />
+    <result column="deduction_sal" jdbcType="DOUBLE" property="deductionSal" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    tax_id, smallest_sal, highest_sal, tax_rate, deduction_sal
+  </sql>
+  <select id="selectByExample" parameterType="com.bean.TaxExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sal_tax
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sal_tax
+    where tax_id = #{taxId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sal_tax
+    where tax_id = #{taxId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bean.TaxExample">
+    delete from sal_tax
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bean.Tax">
+    insert into sal_tax (tax_id, smallest_sal, highest_sal, 
+      tax_rate, deduction_sal)
+    values (#{taxId,jdbcType=INTEGER}, #{smallestSal,jdbcType=DOUBLE}, #{highestSal,jdbcType=DOUBLE}, 
+      #{taxRate,jdbcType=DOUBLE}, #{deductionSal,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Tax">
+    insert into sal_tax
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taxId != null">
+        tax_id,
+      </if>
+      <if test="smallestSal != null">
+        smallest_sal,
+      </if>
+      <if test="highestSal != null">
+        highest_sal,
+      </if>
+      <if test="taxRate != null">
+        tax_rate,
+      </if>
+      <if test="deductionSal != null">
+        deduction_sal,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taxId != null">
+        #{taxId,jdbcType=INTEGER},
+      </if>
+      <if test="smallestSal != null">
+        #{smallestSal,jdbcType=DOUBLE},
+      </if>
+      <if test="highestSal != null">
+        #{highestSal,jdbcType=DOUBLE},
+      </if>
+      <if test="taxRate != null">
+        #{taxRate,jdbcType=DOUBLE},
+      </if>
+      <if test="deductionSal != null">
+        #{deductionSal,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bean.TaxExample" resultType="java.lang.Long">
+    select count(*) from sal_tax
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sal_tax
+    <set>
+      <if test="record.taxId != null">
+        tax_id = #{record.taxId,jdbcType=INTEGER},
+      </if>
+      <if test="record.smallestSal != null">
+        smallest_sal = #{record.smallestSal,jdbcType=DOUBLE},
+      </if>
+      <if test="record.highestSal != null">
+        highest_sal = #{record.highestSal,jdbcType=DOUBLE},
+      </if>
+      <if test="record.taxRate != null">
+        tax_rate = #{record.taxRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.deductionSal != null">
+        deduction_sal = #{record.deductionSal,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sal_tax
+    set tax_id = #{record.taxId,jdbcType=INTEGER},
+      smallest_sal = #{record.smallestSal,jdbcType=DOUBLE},
+      highest_sal = #{record.highestSal,jdbcType=DOUBLE},
+      tax_rate = #{record.taxRate,jdbcType=DOUBLE},
+      deduction_sal = #{record.deductionSal,jdbcType=DOUBLE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Tax">
+    update sal_tax
+    <set>
+      <if test="smallestSal != null">
+        smallest_sal = #{smallestSal,jdbcType=DOUBLE},
+      </if>
+      <if test="highestSal != null">
+        highest_sal = #{highestSal,jdbcType=DOUBLE},
+      </if>
+      <if test="taxRate != null">
+        tax_rate = #{taxRate,jdbcType=DOUBLE},
+      </if>
+      <if test="deductionSal != null">
+        deduction_sal = #{deductionSal,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where tax_id = #{taxId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Tax">
+    update sal_tax
+    set smallest_sal = #{smallestSal,jdbcType=DOUBLE},
+      highest_sal = #{highestSal,jdbcType=DOUBLE},
+      tax_rate = #{taxRate,jdbcType=DOUBLE},
+      deduction_sal = #{deductionSal,jdbcType=DOUBLE}
+    where tax_id = #{taxId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.bean.Tax">
+    <id column="tax_id" jdbcType="INTEGER" property="taxId" />
+    <result column="smallest_sal" jdbcType="DOUBLE" property="smallestSal" />
+    <result column="highest_sal" jdbcType="DOUBLE" property="highestSal" />
+    <result column="tax_rate" jdbcType="DOUBLE" property="taxRate" />
+    <result column="deduction_sal" jdbcType="DOUBLE" property="deductionSal" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    tax_id, smallest_sal, highest_sal, tax_rate, deduction_sal
+  </sql>
+  <select id="selectByExample" parameterType="com.bean.TaxExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sal_tax
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sal_tax
+    where tax_id = #{taxId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sal_tax
+    where tax_id = #{taxId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bean.TaxExample">
+    delete from sal_tax
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bean.Tax">
+    insert into sal_tax (tax_id, smallest_sal, highest_sal, 
+      tax_rate, deduction_sal)
+    values (#{taxId,jdbcType=INTEGER}, #{smallestSal,jdbcType=DOUBLE}, #{highestSal,jdbcType=DOUBLE}, 
+      #{taxRate,jdbcType=DOUBLE}, #{deductionSal,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Tax">
+    insert into sal_tax
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taxId != null">
+        tax_id,
+      </if>
+      <if test="smallestSal != null">
+        smallest_sal,
+      </if>
+      <if test="highestSal != null">
+        highest_sal,
+      </if>
+      <if test="taxRate != null">
+        tax_rate,
+      </if>
+      <if test="deductionSal != null">
+        deduction_sal,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taxId != null">
+        #{taxId,jdbcType=INTEGER},
+      </if>
+      <if test="smallestSal != null">
+        #{smallestSal,jdbcType=DOUBLE},
+      </if>
+      <if test="highestSal != null">
+        #{highestSal,jdbcType=DOUBLE},
+      </if>
+      <if test="taxRate != null">
+        #{taxRate,jdbcType=DOUBLE},
+      </if>
+      <if test="deductionSal != null">
+        #{deductionSal,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bean.TaxExample" resultType="java.lang.Long">
+    select count(*) from sal_tax
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sal_tax
+    <set>
+      <if test="record.taxId != null">
+        tax_id = #{record.taxId,jdbcType=INTEGER},
+      </if>
+      <if test="record.smallestSal != null">
+        smallest_sal = #{record.smallestSal,jdbcType=DOUBLE},
+      </if>
+      <if test="record.highestSal != null">
+        highest_sal = #{record.highestSal,jdbcType=DOUBLE},
+      </if>
+      <if test="record.taxRate != null">
+        tax_rate = #{record.taxRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.deductionSal != null">
+        deduction_sal = #{record.deductionSal,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sal_tax
+    set tax_id = #{record.taxId,jdbcType=INTEGER},
+      smallest_sal = #{record.smallestSal,jdbcType=DOUBLE},
+      highest_sal = #{record.highestSal,jdbcType=DOUBLE},
+      tax_rate = #{record.taxRate,jdbcType=DOUBLE},
+      deduction_sal = #{record.deductionSal,jdbcType=DOUBLE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Tax">
+    update sal_tax
+    <set>
+      <if test="smallestSal != null">
+        smallest_sal = #{smallestSal,jdbcType=DOUBLE},
+      </if>
+      <if test="highestSal != null">
+        highest_sal = #{highestSal,jdbcType=DOUBLE},
+      </if>
+      <if test="taxRate != null">
+        tax_rate = #{taxRate,jdbcType=DOUBLE},
+      </if>
+      <if test="deductionSal != null">
+        deduction_sal = #{deductionSal,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where tax_id = #{taxId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Tax">
+    update sal_tax
+    set smallest_sal = #{smallestSal,jdbcType=DOUBLE},
+      highest_sal = #{highestSal,jdbcType=DOUBLE},
+      tax_rate = #{taxRate,jdbcType=DOUBLE},
+      deduction_sal = #{deductionSal,jdbcType=DOUBLE}
+    where tax_id = #{taxId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.bean.Tax">
+    <id column="tax_id" jdbcType="INTEGER" property="taxId" />
+    <result column="smallest_sal" jdbcType="DOUBLE" property="smallestSal" />
+    <result column="highest_sal" jdbcType="DOUBLE" property="highestSal" />
+    <result column="tax_rate" jdbcType="DOUBLE" property="taxRate" />
+    <result column="deduction_sal" jdbcType="DOUBLE" property="deductionSal" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    tax_id, smallest_sal, highest_sal, tax_rate, deduction_sal
+  </sql>
+  <select id="selectByExample" parameterType="com.bean.TaxExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sal_tax
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sal_tax
+    where tax_id = #{taxId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sal_tax
+    where tax_id = #{taxId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bean.TaxExample">
+    delete from sal_tax
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bean.Tax">
+    insert into sal_tax (tax_id, smallest_sal, highest_sal, 
+      tax_rate, deduction_sal)
+    values (#{taxId,jdbcType=INTEGER}, #{smallestSal,jdbcType=DOUBLE}, #{highestSal,jdbcType=DOUBLE}, 
+      #{taxRate,jdbcType=DOUBLE}, #{deductionSal,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Tax">
+    insert into sal_tax
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taxId != null">
+        tax_id,
+      </if>
+      <if test="smallestSal != null">
+        smallest_sal,
+      </if>
+      <if test="highestSal != null">
+        highest_sal,
+      </if>
+      <if test="taxRate != null">
+        tax_rate,
+      </if>
+      <if test="deductionSal != null">
+        deduction_sal,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taxId != null">
+        #{taxId,jdbcType=INTEGER},
+      </if>
+      <if test="smallestSal != null">
+        #{smallestSal,jdbcType=DOUBLE},
+      </if>
+      <if test="highestSal != null">
+        #{highestSal,jdbcType=DOUBLE},
+      </if>
+      <if test="taxRate != null">
+        #{taxRate,jdbcType=DOUBLE},
+      </if>
+      <if test="deductionSal != null">
+        #{deductionSal,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bean.TaxExample" resultType="java.lang.Long">
+    select count(*) from sal_tax
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sal_tax
+    <set>
+      <if test="record.taxId != null">
+        tax_id = #{record.taxId,jdbcType=INTEGER},
+      </if>
+      <if test="record.smallestSal != null">
+        smallest_sal = #{record.smallestSal,jdbcType=DOUBLE},
+      </if>
+      <if test="record.highestSal != null">
+        highest_sal = #{record.highestSal,jdbcType=DOUBLE},
+      </if>
+      <if test="record.taxRate != null">
+        tax_rate = #{record.taxRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.deductionSal != null">
+        deduction_sal = #{record.deductionSal,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sal_tax
+    set tax_id = #{record.taxId,jdbcType=INTEGER},
+      smallest_sal = #{record.smallestSal,jdbcType=DOUBLE},
+      highest_sal = #{record.highestSal,jdbcType=DOUBLE},
+      tax_rate = #{record.taxRate,jdbcType=DOUBLE},
+      deduction_sal = #{record.deductionSal,jdbcType=DOUBLE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Tax">
+    update sal_tax
+    <set>
+      <if test="smallestSal != null">
+        smallest_sal = #{smallestSal,jdbcType=DOUBLE},
+      </if>
+      <if test="highestSal != null">
+        highest_sal = #{highestSal,jdbcType=DOUBLE},
+      </if>
+      <if test="taxRate != null">
+        tax_rate = #{taxRate,jdbcType=DOUBLE},
+      </if>
+      <if test="deductionSal != null">
+        deduction_sal = #{deductionSal,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where tax_id = #{taxId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Tax">
+    update sal_tax
+    set smallest_sal = #{smallestSal,jdbcType=DOUBLE},
+      highest_sal = #{highestSal,jdbcType=DOUBLE},
+      tax_rate = #{taxRate,jdbcType=DOUBLE},
+      deduction_sal = #{deductionSal,jdbcType=DOUBLE}
+    where tax_id = #{taxId,jdbcType=INTEGER}
+  </update>
+</mapper>

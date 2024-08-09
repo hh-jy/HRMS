@@ -1,0 +1,802 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.TransferMapper">
+  <resultMap id="BaseResultMap" type="com.bean.Transfer">
+    <id column="trans_id" jdbcType="INTEGER" property="transId" />
+    <result column="trans_emp_id" jdbcType="INTEGER" property="transEmpId" />
+    <result column="trans_date" jdbcType="DATE" property="transDate" />
+    <result column="in_dept_id" jdbcType="INTEGER" property="inDeptId" />
+    <result column="out_dept_id" jdbcType="INTEGER" property="outDeptId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.bean.Transfer">
+    <result column="trans_reason" jdbcType="LONGVARCHAR" property="transReason" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    trans_id, trans_emp_id, trans_date, in_dept_id, out_dept_id
+  </sql>
+  <sql id="Blob_Column_List">
+    trans_reason
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.bean.TransferExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from transfer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.bean.TransferExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from transfer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from transfer
+    where trans_id = #{transId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from transfer
+    where trans_id = #{transId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bean.TransferExample">
+    delete from transfer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bean.Transfer">
+    insert into transfer (trans_id, trans_emp_id, trans_date, 
+      in_dept_id, out_dept_id, trans_reason
+      )
+    values (#{transId,jdbcType=INTEGER}, #{transEmpId,jdbcType=INTEGER}, #{transDate,jdbcType=DATE}, 
+      #{inDeptId,jdbcType=INTEGER}, #{outDeptId,jdbcType=INTEGER}, #{transReason,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Transfer">
+    insert into transfer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="transId != null">
+        trans_id,
+      </if>
+      <if test="transEmpId != null">
+        trans_emp_id,
+      </if>
+      <if test="transDate != null">
+        trans_date,
+      </if>
+      <if test="inDeptId != null">
+        in_dept_id,
+      </if>
+      <if test="outDeptId != null">
+        out_dept_id,
+      </if>
+      <if test="transReason != null">
+        trans_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="transId != null">
+        #{transId,jdbcType=INTEGER},
+      </if>
+      <if test="transEmpId != null">
+        #{transEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="transDate != null">
+        #{transDate,jdbcType=DATE},
+      </if>
+      <if test="inDeptId != null">
+        #{inDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="outDeptId != null">
+        #{outDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="transReason != null">
+        #{transReason,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bean.TransferExample" resultType="java.lang.Long">
+    select count(*) from transfer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update transfer
+    <set>
+      <if test="record.transId != null">
+        trans_id = #{record.transId,jdbcType=INTEGER},
+      </if>
+      <if test="record.transEmpId != null">
+        trans_emp_id = #{record.transEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="record.transDate != null">
+        trans_date = #{record.transDate,jdbcType=DATE},
+      </if>
+      <if test="record.inDeptId != null">
+        in_dept_id = #{record.inDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="record.outDeptId != null">
+        out_dept_id = #{record.outDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="record.transReason != null">
+        trans_reason = #{record.transReason,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update transfer
+    set trans_id = #{record.transId,jdbcType=INTEGER},
+      trans_emp_id = #{record.transEmpId,jdbcType=INTEGER},
+      trans_date = #{record.transDate,jdbcType=DATE},
+      in_dept_id = #{record.inDeptId,jdbcType=INTEGER},
+      out_dept_id = #{record.outDeptId,jdbcType=INTEGER},
+      trans_reason = #{record.transReason,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update transfer
+    set trans_id = #{record.transId,jdbcType=INTEGER},
+      trans_emp_id = #{record.transEmpId,jdbcType=INTEGER},
+      trans_date = #{record.transDate,jdbcType=DATE},
+      in_dept_id = #{record.inDeptId,jdbcType=INTEGER},
+      out_dept_id = #{record.outDeptId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Transfer">
+    update transfer
+    <set>
+      <if test="transEmpId != null">
+        trans_emp_id = #{transEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="transDate != null">
+        trans_date = #{transDate,jdbcType=DATE},
+      </if>
+      <if test="inDeptId != null">
+        in_dept_id = #{inDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="outDeptId != null">
+        out_dept_id = #{outDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="transReason != null">
+        trans_reason = #{transReason,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where trans_id = #{transId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bean.Transfer">
+    update transfer
+    set trans_emp_id = #{transEmpId,jdbcType=INTEGER},
+      trans_date = #{transDate,jdbcType=DATE},
+      in_dept_id = #{inDeptId,jdbcType=INTEGER},
+      out_dept_id = #{outDeptId,jdbcType=INTEGER},
+      trans_reason = #{transReason,jdbcType=LONGVARCHAR}
+    where trans_id = #{transId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Transfer">
+    update transfer
+    set trans_emp_id = #{transEmpId,jdbcType=INTEGER},
+      trans_date = #{transDate,jdbcType=DATE},
+      in_dept_id = #{inDeptId,jdbcType=INTEGER},
+      out_dept_id = #{outDeptId,jdbcType=INTEGER}
+    where trans_id = #{transId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.bean.Transfer">
+    <id column="trans_id" jdbcType="INTEGER" property="transId" />
+    <result column="trans_emp_id" jdbcType="INTEGER" property="transEmpId" />
+    <result column="trans_date" jdbcType="DATE" property="transDate" />
+    <result column="in_dept_id" jdbcType="INTEGER" property="inDeptId" />
+    <result column="out_dept_id" jdbcType="INTEGER" property="outDeptId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.bean.Transfer">
+    <result column="trans_reason" jdbcType="LONGVARCHAR" property="transReason" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    trans_id, trans_emp_id, trans_date, in_dept_id, out_dept_id
+  </sql>
+  <sql id="Blob_Column_List">
+    trans_reason
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.bean.TransferExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from transfer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.bean.TransferExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from transfer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from transfer
+    where trans_id = #{transId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from transfer
+    where trans_id = #{transId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bean.TransferExample">
+    delete from transfer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bean.Transfer">
+    insert into transfer (trans_id, trans_emp_id, trans_date, 
+      in_dept_id, out_dept_id, trans_reason
+      )
+    values (#{transId,jdbcType=INTEGER}, #{transEmpId,jdbcType=INTEGER}, #{transDate,jdbcType=DATE}, 
+      #{inDeptId,jdbcType=INTEGER}, #{outDeptId,jdbcType=INTEGER}, #{transReason,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Transfer">
+    insert into transfer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="transId != null">
+        trans_id,
+      </if>
+      <if test="transEmpId != null">
+        trans_emp_id,
+      </if>
+      <if test="transDate != null">
+        trans_date,
+      </if>
+      <if test="inDeptId != null">
+        in_dept_id,
+      </if>
+      <if test="outDeptId != null">
+        out_dept_id,
+      </if>
+      <if test="transReason != null">
+        trans_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="transId != null">
+        #{transId,jdbcType=INTEGER},
+      </if>
+      <if test="transEmpId != null">
+        #{transEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="transDate != null">
+        #{transDate,jdbcType=DATE},
+      </if>
+      <if test="inDeptId != null">
+        #{inDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="outDeptId != null">
+        #{outDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="transReason != null">
+        #{transReason,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bean.TransferExample" resultType="java.lang.Long">
+    select count(*) from transfer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update transfer
+    <set>
+      <if test="record.transId != null">
+        trans_id = #{record.transId,jdbcType=INTEGER},
+      </if>
+      <if test="record.transEmpId != null">
+        trans_emp_id = #{record.transEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="record.transDate != null">
+        trans_date = #{record.transDate,jdbcType=DATE},
+      </if>
+      <if test="record.inDeptId != null">
+        in_dept_id = #{record.inDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="record.outDeptId != null">
+        out_dept_id = #{record.outDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="record.transReason != null">
+        trans_reason = #{record.transReason,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update transfer
+    set trans_id = #{record.transId,jdbcType=INTEGER},
+      trans_emp_id = #{record.transEmpId,jdbcType=INTEGER},
+      trans_date = #{record.transDate,jdbcType=DATE},
+      in_dept_id = #{record.inDeptId,jdbcType=INTEGER},
+      out_dept_id = #{record.outDeptId,jdbcType=INTEGER},
+      trans_reason = #{record.transReason,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update transfer
+    set trans_id = #{record.transId,jdbcType=INTEGER},
+      trans_emp_id = #{record.transEmpId,jdbcType=INTEGER},
+      trans_date = #{record.transDate,jdbcType=DATE},
+      in_dept_id = #{record.inDeptId,jdbcType=INTEGER},
+      out_dept_id = #{record.outDeptId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Transfer">
+    update transfer
+    <set>
+      <if test="transEmpId != null">
+        trans_emp_id = #{transEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="transDate != null">
+        trans_date = #{transDate,jdbcType=DATE},
+      </if>
+      <if test="inDeptId != null">
+        in_dept_id = #{inDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="outDeptId != null">
+        out_dept_id = #{outDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="transReason != null">
+        trans_reason = #{transReason,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where trans_id = #{transId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bean.Transfer">
+    update transfer
+    set trans_emp_id = #{transEmpId,jdbcType=INTEGER},
+      trans_date = #{transDate,jdbcType=DATE},
+      in_dept_id = #{inDeptId,jdbcType=INTEGER},
+      out_dept_id = #{outDeptId,jdbcType=INTEGER},
+      trans_reason = #{transReason,jdbcType=LONGVARCHAR}
+    where trans_id = #{transId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Transfer">
+    update transfer
+    set trans_emp_id = #{transEmpId,jdbcType=INTEGER},
+      trans_date = #{transDate,jdbcType=DATE},
+      in_dept_id = #{inDeptId,jdbcType=INTEGER},
+      out_dept_id = #{outDeptId,jdbcType=INTEGER}
+    where trans_id = #{transId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.bean.Transfer">
+    <id column="trans_id" jdbcType="INTEGER" property="transId" />
+    <result column="trans_emp_id" jdbcType="INTEGER" property="transEmpId" />
+    <result column="trans_date" jdbcType="DATE" property="transDate" />
+    <result column="in_dept_id" jdbcType="INTEGER" property="inDeptId" />
+    <result column="out_dept_id" jdbcType="INTEGER" property="outDeptId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.bean.Transfer">
+    <result column="trans_reason" jdbcType="LONGVARCHAR" property="transReason" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    trans_id, trans_emp_id, trans_date, in_dept_id, out_dept_id
+  </sql>
+  <sql id="Blob_Column_List">
+    trans_reason
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.bean.TransferExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from transfer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.bean.TransferExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from transfer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from transfer
+    where trans_id = #{transId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from transfer
+    where trans_id = #{transId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bean.TransferExample">
+    delete from transfer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bean.Transfer">
+    insert into transfer (trans_id, trans_emp_id, trans_date, 
+      in_dept_id, out_dept_id, trans_reason
+      )
+    values (#{transId,jdbcType=INTEGER}, #{transEmpId,jdbcType=INTEGER}, #{transDate,jdbcType=DATE}, 
+      #{inDeptId,jdbcType=INTEGER}, #{outDeptId,jdbcType=INTEGER}, #{transReason,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.Transfer">
+    insert into transfer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="transId != null">
+        trans_id,
+      </if>
+      <if test="transEmpId != null">
+        trans_emp_id,
+      </if>
+      <if test="transDate != null">
+        trans_date,
+      </if>
+      <if test="inDeptId != null">
+        in_dept_id,
+      </if>
+      <if test="outDeptId != null">
+        out_dept_id,
+      </if>
+      <if test="transReason != null">
+        trans_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="transId != null">
+        #{transId,jdbcType=INTEGER},
+      </if>
+      <if test="transEmpId != null">
+        #{transEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="transDate != null">
+        #{transDate,jdbcType=DATE},
+      </if>
+      <if test="inDeptId != null">
+        #{inDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="outDeptId != null">
+        #{outDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="transReason != null">
+        #{transReason,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bean.TransferExample" resultType="java.lang.Long">
+    select count(*) from transfer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update transfer
+    <set>
+      <if test="record.transId != null">
+        trans_id = #{record.transId,jdbcType=INTEGER},
+      </if>
+      <if test="record.transEmpId != null">
+        trans_emp_id = #{record.transEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="record.transDate != null">
+        trans_date = #{record.transDate,jdbcType=DATE},
+      </if>
+      <if test="record.inDeptId != null">
+        in_dept_id = #{record.inDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="record.outDeptId != null">
+        out_dept_id = #{record.outDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="record.transReason != null">
+        trans_reason = #{record.transReason,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update transfer
+    set trans_id = #{record.transId,jdbcType=INTEGER},
+      trans_emp_id = #{record.transEmpId,jdbcType=INTEGER},
+      trans_date = #{record.transDate,jdbcType=DATE},
+      in_dept_id = #{record.inDeptId,jdbcType=INTEGER},
+      out_dept_id = #{record.outDeptId,jdbcType=INTEGER},
+      trans_reason = #{record.transReason,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update transfer
+    set trans_id = #{record.transId,jdbcType=INTEGER},
+      trans_emp_id = #{record.transEmpId,jdbcType=INTEGER},
+      trans_date = #{record.transDate,jdbcType=DATE},
+      in_dept_id = #{record.inDeptId,jdbcType=INTEGER},
+      out_dept_id = #{record.outDeptId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Transfer">
+    update transfer
+    <set>
+      <if test="transEmpId != null">
+        trans_emp_id = #{transEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="transDate != null">
+        trans_date = #{transDate,jdbcType=DATE},
+      </if>
+      <if test="inDeptId != null">
+        in_dept_id = #{inDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="outDeptId != null">
+        out_dept_id = #{outDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="transReason != null">
+        trans_reason = #{transReason,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where trans_id = #{transId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bean.Transfer">
+    update transfer
+    set trans_emp_id = #{transEmpId,jdbcType=INTEGER},
+      trans_date = #{transDate,jdbcType=DATE},
+      in_dept_id = #{inDeptId,jdbcType=INTEGER},
+      out_dept_id = #{outDeptId,jdbcType=INTEGER},
+      trans_reason = #{transReason,jdbcType=LONGVARCHAR}
+    where trans_id = #{transId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Transfer">
+    update transfer
+    set trans_emp_id = #{transEmpId,jdbcType=INTEGER},
+      trans_date = #{transDate,jdbcType=DATE},
+      in_dept_id = #{inDeptId,jdbcType=INTEGER},
+      out_dept_id = #{outDeptId,jdbcType=INTEGER}
+    where trans_id = #{transId,jdbcType=INTEGER}
+  </update>
+</mapper>

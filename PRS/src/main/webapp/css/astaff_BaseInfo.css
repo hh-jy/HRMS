@@ -1,0 +1,145 @@
+.wrap admin-wrap {
+    color: #000;
+    font-size: 12px;
+    list-style: none;
+    padding: 0 !important;
+    margin: 0px auto;
+    text-align: left;
+}
+
+.subtitle {
+    color: #000;
+    font-size: 12px;
+    margin: 0;
+    list-style: none;
+    background: #f5f5f5;
+    border-left: 3px solid #ccc;
+    margin-bottom: 26px;
+    text-align: left;
+    padding: 6px 5px 6px 15px;
+}
+
+.subtitle span {
+    list-style: none;
+    text-align: left;
+    color: #333;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 2px;
+    line-height: 26px;
+}
+
+.infotable {
+    color: #000;
+    list-style: none;
+    border-spacing: 0;
+    font-size: 12px;
+    width: 100%;
+    margin: 15px auto;
+    text-align: center;
+    background: #fcfcfc;
+    border-left: 1px solid #e3e3e3;
+    border-top: 1px solid #e3e3e3;
+}
+
+.infotable tbody {
+    color: #000;
+    list-style: none;
+    border-spacing: 0;
+    font-size: 12px;
+    text-align: center;
+}
+
+.infotable th {
+    color: #000;
+    border-spacing: 0;
+    font-size: 12px;
+    width: 10%;
+    margin: 0;
+    list-style: none;
+    font-style: inherit;
+    text-align: left;
+    font-weight: normal;
+    line-height: 24px;
+    border-bottom: 1px solid #e3e3e3;
+    border-right: 1px solid #e3e3e3;
+    padding: 6px 20px;
+    word-break: keep-all;
+}
+
+.infotable td {
+    color: #000;
+    border-spacing: 0;
+    font-size: 12px;
+    margin: 0;
+    list-style: none;
+    line-height: 24px;
+    padding: 6px 60px;
+    border-bottom: 1px solid #e3e3e3;
+    border-right: 1px solid #e3e3e3;
+    background: #FFF;
+    text-align: left;
+}
+
+.buttonc {
+    color: #000;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+.button {
+    margin: 0;
+    list-style: none;
+    font-family: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+    outline: none;
+    width: auto;
+    height: 26px;
+    overflow: visible;
+    padding: 0 10px;
+    border: 1px solid #CCC;
+    line-height: 20px !important;
+    color: #333;
+    letter-spacing: 2px;
+    font-size: 12px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.infotable tr td input {
+    border-spacing: 0;
+    margin: 0;
+    list-style: none;
+    font-family: inherit;
+    font-size: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+    padding: 4px 6px;
+    outline: none;
+}
+
+.needstar {
+    border-spacing: 0;
+    font-size: 12px;
+    list-style: none;
+    line-height: 24px;
+    text-align: left;
+    color: red;
+    margin-left: 10px;
+}
+
+.explain {
+    border-spacing: 0;
+    font-size: 12px;
+    list-style: none;
+    line-height: 24px;
+    text-align: left;
+    color: #E15A00;
+    letter-spacing: 1px;
+}

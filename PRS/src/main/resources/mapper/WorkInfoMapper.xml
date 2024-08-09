@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.WorkInfoMapper">
+  <resultMap id="BaseResultMap" type="com.bean.WorkInfo">
+    <id column="work_emp_id" jdbcType="INTEGER" property="workEmpId" />
+    <result column="work_date" jdbcType="DATE" property="workDate" />
+    <result column="emp_status" jdbcType="INTEGER" property="empStatus" />
+    <result column="work_status_id" jdbcType="INTEGER" property="workStatusId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    work_emp_id, work_date, emp_status, work_status_id
+  </sql>
+  <select id="selectByExample" parameterType="com.bean.WorkInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from work_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from work_info
+    where work_emp_id = #{workEmpId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from work_info
+    where work_emp_id = #{workEmpId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bean.WorkInfoExample">
+    delete from work_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bean.WorkInfo">
+    insert into work_info (work_emp_id, work_date, emp_status, 
+      work_status_id)
+    values (#{workEmpId,jdbcType=INTEGER}, #{workDate,jdbcType=DATE}, #{empStatus,jdbcType=INTEGER}, 
+      #{workStatusId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.WorkInfo">
+    insert into work_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="workEmpId != null">
+        work_emp_id,
+      </if>
+      <if test="workDate != null">
+        work_date,
+      </if>
+      <if test="empStatus != null">
+        emp_status,
+      </if>
+      <if test="workStatusId != null">
+        work_status_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="workEmpId != null">
+        #{workEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="workDate != null">
+        #{workDate,jdbcType=DATE},
+      </if>
+      <if test="empStatus != null">
+        #{empStatus,jdbcType=INTEGER},
+      </if>
+      <if test="workStatusId != null">
+        #{workStatusId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bean.WorkInfoExample" resultType="java.lang.Long">
+    select count(*) from work_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update work_info
+    <set>
+      <if test="record.workEmpId != null">
+        work_emp_id = #{record.workEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="record.workDate != null">
+        work_date = #{record.workDate,jdbcType=DATE},
+      </if>
+      <if test="record.empStatus != null">
+        emp_status = #{record.empStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.workStatusId != null">
+        work_status_id = #{record.workStatusId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update work_info
+    set work_emp_id = #{record.workEmpId,jdbcType=INTEGER},
+      work_date = #{record.workDate,jdbcType=DATE},
+      emp_status = #{record.empStatus,jdbcType=INTEGER},
+      work_status_id = #{record.workStatusId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.WorkInfo">
+    update work_info
+    <set>
+      <if test="workDate != null">
+        work_date = #{workDate,jdbcType=DATE},
+      </if>
+      <if test="empStatus != null">
+        emp_status = #{empStatus,jdbcType=INTEGER},
+      </if>
+      <if test="workStatusId != null">
+        work_status_id = #{workStatusId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where work_emp_id = #{workEmpId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.WorkInfo">
+    update work_info
+    set work_date = #{workDate,jdbcType=DATE},
+      emp_status = #{empStatus,jdbcType=INTEGER},
+      work_status_id = #{workStatusId,jdbcType=INTEGER}
+    where work_emp_id = #{workEmpId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.bean.WorkInfo">
+    <id column="work_emp_id" jdbcType="INTEGER" property="workEmpId" />
+    <result column="work_date" jdbcType="DATE" property="workDate" />
+    <result column="emp_status" jdbcType="INTEGER" property="empStatus" />
+    <result column="work_status_id" jdbcType="INTEGER" property="workStatusId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    work_emp_id, work_date, emp_status, work_status_id
+  </sql>
+  <select id="selectByExample" parameterType="com.bean.WorkInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from work_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from work_info
+    where work_emp_id = #{workEmpId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from work_info
+    where work_emp_id = #{workEmpId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bean.WorkInfoExample">
+    delete from work_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bean.WorkInfo">
+    insert into work_info (work_emp_id, work_date, emp_status, 
+      work_status_id)
+    values (#{workEmpId,jdbcType=INTEGER}, #{workDate,jdbcType=DATE}, #{empStatus,jdbcType=INTEGER}, 
+      #{workStatusId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.WorkInfo">
+    insert into work_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="workEmpId != null">
+        work_emp_id,
+      </if>
+      <if test="workDate != null">
+        work_date,
+      </if>
+      <if test="empStatus != null">
+        emp_status,
+      </if>
+      <if test="workStatusId != null">
+        work_status_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="workEmpId != null">
+        #{workEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="workDate != null">
+        #{workDate,jdbcType=DATE},
+      </if>
+      <if test="empStatus != null">
+        #{empStatus,jdbcType=INTEGER},
+      </if>
+      <if test="workStatusId != null">
+        #{workStatusId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bean.WorkInfoExample" resultType="java.lang.Long">
+    select count(*) from work_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update work_info
+    <set>
+      <if test="record.workEmpId != null">
+        work_emp_id = #{record.workEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="record.workDate != null">
+        work_date = #{record.workDate,jdbcType=DATE},
+      </if>
+      <if test="record.empStatus != null">
+        emp_status = #{record.empStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.workStatusId != null">
+        work_status_id = #{record.workStatusId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update work_info
+    set work_emp_id = #{record.workEmpId,jdbcType=INTEGER},
+      work_date = #{record.workDate,jdbcType=DATE},
+      emp_status = #{record.empStatus,jdbcType=INTEGER},
+      work_status_id = #{record.workStatusId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.WorkInfo">
+    update work_info
+    <set>
+      <if test="workDate != null">
+        work_date = #{workDate,jdbcType=DATE},
+      </if>
+      <if test="empStatus != null">
+        emp_status = #{empStatus,jdbcType=INTEGER},
+      </if>
+      <if test="workStatusId != null">
+        work_status_id = #{workStatusId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where work_emp_id = #{workEmpId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.WorkInfo">
+    update work_info
+    set work_date = #{workDate,jdbcType=DATE},
+      emp_status = #{empStatus,jdbcType=INTEGER},
+      work_status_id = #{workStatusId,jdbcType=INTEGER}
+    where work_emp_id = #{workEmpId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.bean.WorkInfo">
+    <id column="work_emp_id" jdbcType="INTEGER" property="workEmpId" />
+    <result column="work_date" jdbcType="DATE" property="workDate" />
+    <result column="emp_status" jdbcType="INTEGER" property="empStatus" />
+    <result column="work_status_id" jdbcType="INTEGER" property="workStatusId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    work_emp_id, work_date, emp_status, work_status_id
+  </sql>
+  <select id="selectByExample" parameterType="com.bean.WorkInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from work_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from work_info
+    where work_emp_id = #{workEmpId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from work_info
+    where work_emp_id = #{workEmpId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bean.WorkInfoExample">
+    delete from work_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bean.WorkInfo">
+    insert into work_info (work_emp_id, work_date, emp_status, 
+      work_status_id)
+    values (#{workEmpId,jdbcType=INTEGER}, #{workDate,jdbcType=DATE}, #{empStatus,jdbcType=INTEGER}, 
+      #{workStatusId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.WorkInfo">
+    insert into work_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="workEmpId != null">
+        work_emp_id,
+      </if>
+      <if test="workDate != null">
+        work_date,
+      </if>
+      <if test="empStatus != null">
+        emp_status,
+      </if>
+      <if test="workStatusId != null">
+        work_status_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="workEmpId != null">
+        #{workEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="workDate != null">
+        #{workDate,jdbcType=DATE},
+      </if>
+      <if test="empStatus != null">
+        #{empStatus,jdbcType=INTEGER},
+      </if>
+      <if test="workStatusId != null">
+        #{workStatusId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bean.WorkInfoExample" resultType="java.lang.Long">
+    select count(*) from work_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update work_info
+    <set>
+      <if test="record.workEmpId != null">
+        work_emp_id = #{record.workEmpId,jdbcType=INTEGER},
+      </if>
+      <if test="record.workDate != null">
+        work_date = #{record.workDate,jdbcType=DATE},
+      </if>
+      <if test="record.empStatus != null">
+        emp_status = #{record.empStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.workStatusId != null">
+        work_status_id = #{record.workStatusId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update work_info
+    set work_emp_id = #{record.workEmpId,jdbcType=INTEGER},
+      work_date = #{record.workDate,jdbcType=DATE},
+      emp_status = #{record.empStatus,jdbcType=INTEGER},
+      work_status_id = #{record.workStatusId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.WorkInfo">
+    update work_info
+    <set>
+      <if test="workDate != null">
+        work_date = #{workDate,jdbcType=DATE},
+      </if>
+      <if test="empStatus != null">
+        emp_status = #{empStatus,jdbcType=INTEGER},
+      </if>
+      <if test="workStatusId != null">
+        work_status_id = #{workStatusId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where work_emp_id = #{workEmpId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.WorkInfo">
+    update work_info
+    set work_date = #{workDate,jdbcType=DATE},
+      emp_status = #{empStatus,jdbcType=INTEGER},
+      work_status_id = #{workStatusId,jdbcType=INTEGER}
+    where work_emp_id = #{workEmpId,jdbcType=INTEGER}
+  </update>
+</mapper>
